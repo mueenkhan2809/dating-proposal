@@ -1,96 +1,52 @@
-<!DOCTYPE html>
-<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Date Proposal ❤️</title>
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e, #fecfef);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            color: #333;
-        }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #ff9a9e, #fecfef); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; text-align: center; color: #333; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 400px; width: 90%; position: relative; }
         h1 { color: #e91e63; font-size: 24px; }
-        .btn-group {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            height: 50px;
-        }
-        button {
-            padding: 10px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .btn-group { margin-top: 20px; display: flex; justify-content: center; gap: 20px; height: 50px; }
+        button { padding: 10px 25px; font-size: 16px; font-weight: bold; border: none; border-radius: 25px; cursor: pointer; }
         .yes-btn { background-color: #4CAF50; color: white; }
-        .no-btn {
-            background-color: #f44336;
-            color: white;
-            position: absolute;
-        }
+        .no-btn { background-color: #f44336; color: white; position: absolute; }
         .hidden { display: none; }
         form { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
-        input, textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 14px;
-        }
+        input, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; }
         .submit-btn { background-color: #e91e63; color: white; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- Page 1: Proposal -->
+    <!-- Page 1 -->
     <div class="card" id="page1">
         <h1>Hey Beautiful! ❤️</h1>
         <p>Kya aap mere saath ek perfect date par chalogi?</p>
-        <p><i>(No bolne ka option waise hai nahi 😉)</i></p>
+        <p><i>(No bolne ka option hai hi nahi 😉)</i></p>
         <div class="btn-group">
             <button class="yes-btn" onclick="nextPage()">YES! 💖</button>
             <button class="no-btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO 😜</button>
         </div>
     </div>
 
-    <!-- Page 2: Date Details -->
+    <!-- Page 2 -->
     <div class="card hidden" id="page2">
         <h1>Yay! Ab aap decide karo 🌹</h1>
-        <p>Mujhe batao hum kab aur kahan mil rahe hain:</p>
-        <form id="dateForm" onsubmit="submitForm(event)">
-            <input type="date" required>
-            <input type="time" required>
-            <input type="text" placeholder="Venue / Kahan jaana hai?" required>
-            <input type="text" placeholder="Activity / Kya karna hai?" required>
-            <textarea placeholder="Mere liye ek pyara sa message... ❤️" rows="3" required></textarea>
-            <button type="submit" class="submit-btn">Done! 💌</button>
+        <form id="dateForm" onsubmit="sendToWhatsApp(event)">
+            <input type="date" id="date" required>
+            <input type="time" id="time" required>
+            <input type="text" id="venue" placeholder="Venue / Kahan jaana hai?" required>
+            <input type="text" id="activity" placeholder="Activity / Kya karna hai?" required>
+            <textarea id="msg" placeholder="Mere liye ek pyara sa message... ❤️" rows="3" required></textarea>
+            <button type="submit" class="submit-btn">Done & Send on WhatsApp 💌</button>
         </form>
     </div>
 
-    <!-- Page 3: Final Message -->
+    <!-- Page 3 -->
     <div class="card hidden" id="page3">
         <h1>It's a Date! 🎉</h1>
         <p style="font-size: 18px; color: #e91e63;">I Love You So Much! ❤️✨</p>
-        <p>Aapki saari choice lock ho gayi hain. Ab bas us din ka wait hai!</p>
+        <p>Aapki saari choice mujhe WhatsApp par mil gayi hai!</p>
     </div>
 
     <script>
@@ -107,10 +63,25 @@
             document.getElementById('page2').classList.remove('hidden');
         }
 
-        function submitForm(event) {
+        function sendToWhatsApp(event) {
             event.preventDefault();
+            
+            // Yahan apna 10 digit WhatsApp number daalein (Country code 91 ke saath)
+            const myPhoneNumber = "918103503130"; 
+
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const venue = document.getElementById('venue').value;
+            const activity = document.getElementById('activity').value;
+            const msg = document.getElementById('msg').value;
+
+            const whatsappMessage = `Hey! Maine Date Fix Kar Di Hai ❤️%0A%0A📅 Date: ${date}%0A⏰ Time: ${time}%0A📍 Venue: ${venue}%0A🎯 Activity: ${activity}%0A💬 Message: ${msg}`;
+
             document.getElementById('page2').classList.add('hidden');
             document.getElementById('page3').classList.remove('hidden');
+
+            // Opens WhatsApp with pre-filled details
+            window.open(`https://wa.me/${myPhoneNumber}?text=${whatsappMessage}`, '_blank');
         }
     </script>
 </body>
